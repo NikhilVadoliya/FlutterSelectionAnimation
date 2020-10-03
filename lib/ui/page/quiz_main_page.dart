@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_selection_animation/ui/helper/colors_helper.dart';
 import 'package:flutter_selection_animation/ui/options_list.dart';
+import 'package:flutter_selection_animation/ui/page/question.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:percent_indicator/percent_indicator.dart';
 
 class QuizMainPage extends StatefulWidget {
   QuizMainPage({Key key, this.title}) : super(key: key);
@@ -28,10 +31,50 @@ class _MyHomePageState extends State<QuizMainPage> {
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
-          Expanded(child: Container(color: Colors.white)),
+          LineIndicator(),
+          Expanded(child: Question()),
           Expanded(child: OptionList()),
         ],
       ),
     );
+  }
+}
+
+class LineIndicator extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+        padding: const EdgeInsets.only(left: 15, right: 15, top: 20),
+        child: Column(
+          children: [
+            RichText(
+              text: TextSpan(
+                  text: '1',
+                  style: GoogleFonts.nunito(fontSize: 20, color: Colors.black),
+                  children: <TextSpan>[
+                    TextSpan(
+                        text: ' /',
+                        style: GoogleFonts.nunito(
+                            fontSize: 15, color: Colors.black45)),
+                    TextSpan(
+                        text: ' 10',
+                        style: GoogleFonts.nunito(
+                            fontSize: 10, color: Colors.black45))
+                  ]),
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            LinearPercentIndicator(
+              width: MediaQuery.of(context).size.width - 30,
+              animation: true,
+              lineHeight: 10.0,
+              animationDuration: 1500,
+              percent: 0.1,
+              linearStrokeCap: LinearStrokeCap.roundAll,
+              progressColor: ColoursHelper.blue(),
+            ),
+          ],
+        ));
   }
 }
